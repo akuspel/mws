@@ -25,7 +25,25 @@ def mirror(axis):
             mod_nro += 1
             if mod_nro == mods:
                 active_mod = mod.name
-                bpy.context.object.modifiers[active_mod].use_clip = True
+                
+                #World Space Mirror
+                if bpy.context.scene.tool_settings.transform_pivot_point == "CURSOR":
+                    active = bpy.context.active_object
+                    bpy.ops.object.empty_add(type='ARROWS', view_align=False, location=(bpy.context.scene.cursor_location))
+
+                    pivot_object = bpy.context.object
+                    bpy.context.object.name = "MIRROR_PIVOT" + str(bpy.context.scene.cursor_location)
+
+                    bpy.ops.object.select_all(action='TOGGLE')
+
+                    bpy.context.view_layer.objects.active = active
+                    bpy.data.objects[active.name].select_set(True)
+                    
+                    bpy.context.object.modifiers[active_mod].mirror_object = pivot_object
+                    
+                else:
+                    bpy.context.object.modifiers[active_mod].use_clip = True
+                
                 if axis == "x":
                     bpy.context.object.modifiers[active_mod].use_axis[0] = True
                     bpy.context.object.modifiers[active_mod].use_axis[1] = False
@@ -45,20 +63,20 @@ def mirror(axis):
                 if mirror_nro == 1:
                     active_mirror = mod.name
         if axis == "x":
-            if bpy.context.object.modifiers[active_mirror].use_x == True:
-                bpy.context.object.modifiers[active_mirror].use_x = False
+            if bpy.context.object.modifiers[active_mirror].use_axis[0] == True:
+                bpy.context.object.modifiers[active_mirror].use_axis[0] = False
             else:
-                bpy.context.object.modifiers[active_mirror].use_x = True
+                bpy.context.object.modifiers[active_mirror].use_axis[0] = True
         elif axis == "y":
-            if bpy.context.object.modifiers[active_mirror].use_y == True:
-                bpy.context.object.modifiers[active_mirror].use_y = False
+            if bpy.context.object.modifiers[active_mirror].use_axis[1] == True:
+                bpy.context.object.modifiers[active_mirror].use_axis[1] = False
             else:
-                bpy.context.object.modifiers[active_mirror].use_y = True
+                bpy.context.object.modifiers[active_mirror].use_axis[1] = True
         elif axis == "z":
-            if bpy.context.object.modifiers[active_mirror].use_z == True:
-                bpy.context.object.modifiers[active_mirror].use_z = False
+            if bpy.context.object.modifiers[active_mirror].use_axis[2] == True:
+                bpy.context.object.modifiers[active_mirror].use_axis[2] = False
             else:
-                bpy.context.object.modifiers[active_mirror].use_z = True
+                bpy.context.object.modifiers[active_mirror].use_axis[2] = True
 
 def mirror_metaball(axis):
     
@@ -66,7 +84,7 @@ def mirror_metaball(axis):
 
     for ob in bpy.data.objects:
         if ob != active:
-            bpy.data.objects[ob.name].select_set("DESELECT")
+            bpy.data.objects[ob.name].select_set(False)
 
     bpy.ops.object.duplicate_move_linked()
     if axis == "x":
@@ -77,14 +95,14 @@ def mirror_metaball(axis):
         bpy.ops.transform.resize(value=(1, 1, -1))
 
     bpy.context.view_layer.objects.active = active
-    bpy.data.objects[active.name].select_set("SELECT")
+    bpy.data.objects[active.name].select_set(True)
 
     bpy.ops.object.parent_set(type='OBJECT')
 
     bpy.ops.object.select_all(action='TOGGLE')
 
     bpy.context.view_layer.objects.active = active
-    bpy.data.objects[active.name].select_set("SELECT")
+    bpy.data.objects[active.name].select_set(True)
 
 class MWS_OT_MirrorX(bpy.types.Operator):
     bl_idname = "object.mirror_x"
