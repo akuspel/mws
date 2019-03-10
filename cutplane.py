@@ -12,11 +12,11 @@ class MWS_OT_CutPlane(bpy.types.Operator) :
         if bpy.context.object.mode == "OBJECT":
             obj_a = bpy.context.active_object.name
             obj_a_ = bpy.context.active_object
-            bpy.ops.mesh.primitive_plane_add(radius = 100)
+            bpy.ops.mesh.primitive_plane_add(size = 100)
             obj_b = bpy.context.active_object.name
             obj_b_ = bpy.context.active_object
-            bpy.data.objects[obj_a].select = True
-            bpy.context.scene.objects.active = obj_a_
+            bpy.data.objects[obj_a].select_set(True)
+            bpy.context.view_layer.objects.active = obj_a_
             bpy.ops.object.mws_boolean_dif()
 
             mod_nro = 0
@@ -28,10 +28,8 @@ class MWS_OT_CutPlane(bpy.types.Operator) :
                 if mod_nro == mods:
                     mod_name = mod.name
 
-            bpy.context.object.modifiers["Boolean"].solver = 'CARVE'
-
             bpy.ops.object.select_all(action='TOGGLE')
-            bpy.context.scene.objects.active = obj_b_
-            bpy.data.objects[obj_b].select = True
+            bpy.context.view_layer.objects.active = obj_b_
+            bpy.data.objects[obj_b].select_set(True)
             bpy.ops.transform.rotate("INVOKE_DEFAULT")
         return {"FINISHED"}

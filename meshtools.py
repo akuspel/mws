@@ -61,7 +61,7 @@ class MWS_OT_ClearScene(bpy.types.Operator) :
     def execute(self, context) :
         bpy.ops.object.select_all(action='DESELECT')
         for object in bpy.data.objects:
-            object.select = True
+            object.select_set(True)
             bpy.ops.object.delete(use_global=False)
         return {"FINISHED"}
 

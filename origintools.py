@@ -17,28 +17,17 @@ class MWS_OT_OriginToSelected(bpy.types.Operator) :
                 verts = [ v.index for v in obj.data.vertices if v.select ]
 
             if len(verts) > 0:
-                ob = bpy.context.object
-                ob.update_from_editmode()
+                curx = bpy.context.scene.cursor.location[0]
+                cury = bpy.context.scene.cursor.location[1]
+                curz = bpy.context.scene.cursor.location[2]
 
-                me = ob.data
-                verts_sel = [v.co for v in me.vertices if v.select]
-
-                pivot = sum(verts_sel, Vector()) / len(verts_sel)
-
-                print("Local:", pivot)
-                print("Global:", ob.matrix_world * pivot)
-
-                curx = bpy.context.scene.cursor_location.x
-                cury = bpy.context.scene.cursor_location.y
-                curz = bpy.context.scene.cursor_location.z
-
-                bpy.context.scene.cursor_location = ob.matrix_world * pivot
+                bpy.ops.view3d.snap_cursor_to_selected()
                 bpy.ops.object.editmode_toggle()
                 bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
                 bpy.ops.object.editmode_toggle()
                 bpy.ops.mesh.select_all(action='TOGGLE')
 
-                bpy.context.scene.cursor_location = (curx, cury, curz)
+                bpy.context.scene.cursor.location = (curx, cury, curz)
             else:
                 self.report({'WARNING'}, "Nothing selected")
         return {"FINISHED"}
@@ -62,7 +51,7 @@ class MWS_OT_ResetCursorX(bpy.types.Operator) :
     bl_options = {"REGISTER"} 
 
     def execute(self, context) :
-        bpy.context.scene.cursor_location.x = 0
+        bpy.context.scene.cursor.location[0] = 0
         return {"FINISHED"}
 
 class MWS_OT_ResetCursorY(bpy.types.Operator) : 
@@ -71,7 +60,7 @@ class MWS_OT_ResetCursorY(bpy.types.Operator) :
     bl_options = {"REGISTER"} 
 
     def execute(self, context) :
-        bpy.context.scene.cursor_location.y = 0
+        bpy.context.scene.cursor.location[1] = 0
         return {"FINISHED"}
 
 class MWS_OT_ResetCursorZ(bpy.types.Operator) : 
@@ -80,7 +69,7 @@ class MWS_OT_ResetCursorZ(bpy.types.Operator) :
     bl_options = {"REGISTER"} 
 
     def execute(self, context) :
-        bpy.context.scene.cursor_location.z = 0
+        bpy.context.scene.cursor.location[2] = 0
         return {"FINISHED"}
 
 

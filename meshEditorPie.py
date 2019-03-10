@@ -220,8 +220,8 @@ class MWS_PIE_toolpie(Menu):
         #RIGHT
         box = pie.split().column()
         row = box.split(align=True)
-        row.operator("mesh.fill_grid", text="Fill", icon='MESH_GRID')
-        row.operator("mesh.bridge_edge_loops", text="Bridge", icon='SPHERECURVE')
+        row.operator("mesh.symmetrize", text="Symmetrize")
+        row.operator("mesh.select_mirror", text="Select Mirror", icon='UV_SYNC_SELECT')
         
         #BOTTOM
         if addon_exists("mesh_looptools"):
@@ -241,10 +241,7 @@ class MWS_PIE_toolpie(Menu):
         pie.separator()
         
         #TOP-LEFT
-        box = pie.split().column()
-        row = box.split(align=True)
-        row.operator("mesh.symmetrize", text="Symmetrize")
-        row.operator("mesh.select_mirror", text="Select Mirror", icon='UV_SYNC_SELECT')
+        pie.separator()
         
         #TOP-RIGHT
         pie.separator()
@@ -252,14 +249,13 @@ class MWS_PIE_toolpie(Menu):
         #BOTTOM-LEFT
         box = pie.split().column()
         row = box.split(align=True)
-        row.operator("mesh.bevel", text="Bevel")
-        row.operator("mesh.offset_edge_loops_slide", text="Slide", icon="EDGESEL")
+        row.operator("mesh.offset_edge_loops_slide", text="Split Slide", icon="EDGESEL")
         
-        #BOTTOM-ROGHT
+        #BOTTOM-RIGHT
         box = pie.split().column()
-        row = box.row(align=True)
-        row.operator("mesh.subdivide", text="Subdivide")
-        row.operator("mesh.loopcut_slide", text="Loopcut")
+        row = box.split(align=True)
+        row.operator("mesh.fill_grid", text="Grid Fill", icon='MESH_GRID')
+        row.operator("mesh.bridge_edge_loops", text="Bridge", icon='SPHERECURVE')
 
 
 def register():

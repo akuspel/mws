@@ -29,10 +29,10 @@ def mirror(axis):
                 #World Space Mirror
                 if bpy.context.scene.tool_settings.transform_pivot_point == "CURSOR":
                     active = bpy.context.active_object
-                    bpy.ops.object.empty_add(type='ARROWS', view_align=False, location=(bpy.context.scene.cursor_location))
+                    bpy.ops.object.empty_add(type='ARROWS', view_align=False, location=(bpy.context.scene.cursor.location))
 
                     pivot_object = bpy.context.object
-                    bpy.context.object.name = "MIRROR_PIVOT" + str(bpy.context.scene.cursor_location)
+                    bpy.context.object.name = "MIRROR_PIVOT" + str(bpy.context.scene.cursor.location)
 
                     bpy.ops.object.select_all(action='TOGGLE')
 
