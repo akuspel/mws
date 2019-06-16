@@ -9,6 +9,7 @@ def mirror(axis):
     mirror_mods = 0
     mirror_nro = 0
     active_mirror = ""
+    mirror_pivot = ""
     
     for mod in bpy.context.active_object.modifiers:
         if mod.type == "MIRROR":
@@ -26,23 +27,32 @@ def mirror(axis):
             if mod_nro == mods:
                 active_mod = mod.name
                 
-                #World Space Mirror
-                if bpy.context.scene.tool_settings.transform_pivot_point == "CURSOR":
-                    active = bpy.context.active_object
-                    bpy.ops.object.empty_add(type='ARROWS', location=(bpy.context.scene.cursor.location))
+                if len(bpy.context.selected_objects) > 1:
+                    for i in bpy.context.selected_objects:
+                        if "MIRROR_PIVOT" in i.name:
+                            mirror_pivot = i
 
-                    pivot_object = bpy.context.object
-                    bpy.context.object.name = "MIRROR_PIVOT" + str(bpy.context.scene.cursor.location)
-
-                    bpy.ops.object.select_all(action='TOGGLE')
-
-                    bpy.context.view_layer.objects.active = active
-                    bpy.data.objects[active.name].select_set(True)
-                    
-                    bpy.context.object.modifiers[active_mod].mirror_object = pivot_object
-                    
+                if mirror_pivot:
+                    bpy.context.object.modifiers[active_mod].mirror_object = mirror_pivot
                 else:
-                    bpy.context.object.modifiers[active_mod].use_clip = True
+
+                    #World Space Mirror
+                    if bpy.context.scene.tool_settings.transform_pivot_point == "CURSOR":
+                        active = bpy.context.active_object
+                        bpy.ops.object.empty_add(type='ARROWS', location=(bpy.context.scene.cursor.location))
+
+                        pivot_object = bpy.context.object
+                        bpy.context.object.name = "MIRROR_PIVOT" + str(bpy.context.scene.cursor.location)
+
+                        bpy.ops.object.select_all(action='TOGGLE')
+
+                        bpy.context.view_layer.objects.active = active
+                        bpy.data.objects[active.name].select_set(True)
+                        
+                        bpy.context.object.modifiers[active_mod].mirror_object = pivot_object
+                        
+                    else:
+                        bpy.context.object.modifiers[active_mod].use_clip = True
                 
                 if axis == "x":
                     bpy.context.object.modifiers[active_mod].use_axis[0] = True
