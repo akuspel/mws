@@ -36,7 +36,6 @@ from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty, FloatProperty
 import webbrowser
 from . utils.addons import addon_exists
-from . utils.license import encode
 import rna_keymap_ui
 from . keymap import register_keymaps
 import os, string, socket
@@ -45,7 +44,7 @@ class MWS_PT_Preferences(AddonPreferences):
     bl_idname = __name__
 
     quickEditors = BoolProperty(
-            name="Enable Quick Operators",
+            name="Enable Quick Operators (under construction)",
             default=False,
             )
     number = FloatProperty(
@@ -82,10 +81,6 @@ class MWS_PT_Preferences(AddonPreferences):
         row.operator("pref.bevelr", text="Bevelr", icon=bevlr_icon)
         row.operator("pref.looptools", text="Loop Tools", icon=loopt_icon)
         row.operator("pref.modtools", text="Modifier Tools", icon=modt_icon)
-        row.operator("pref.hops", text="HardOps")
-        row.operator("pref.boxc", text="BoxCutter")
-        row.operator("pref.decal", text="Decal Machine")
-        #layout.prop(self, "number")
         layout.prop(self, "quickEditors")
         layout.prop(self, "helpBoolean")
         if self.helpBoolean == True:
