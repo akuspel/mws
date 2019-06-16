@@ -37,17 +37,15 @@ class MWS_OT_ClearVertData(bpy.types.Operator) :
                 bpy.context.active_object.vertex_groups.remove(group)
             for color in bpy.context.active_object.data.vertex_colors:    
                 bpy.context.active_object.data.vertex_colors.remove(color)
-            for uv in bpy.context.active_object.data.uv_textures:
+            for uv in bpy.context.active_object.data.uv_layers:
                  bpy.ops.mesh.uv_texture_remove()
-            #active_uv = bpy.context.active_object.data.uv_textures.active.name
-            #bpy.ops.mesh.uv_texture_remove(active_uv)
         except:
             try:
                 for group in bpy.context.active_object.vertex_groups:
                     bpy.context.active_object.vertex_groups.remove(group)
                 for color in bpy.context.active_object.data.vertex_colors:    
                     bpy.context.active_object.data.vertex_colors.remove(color)
-                for uv in bpy.context.active_object.data.uv_textures:
+                for uv in bpy.context.active_object.data.uv_layers:
                      bpy.ops.mesh.uv_texture_remove()
             except:
                 self.report({'WARNING'}, "Unable to complete action...")

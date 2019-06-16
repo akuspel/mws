@@ -36,8 +36,10 @@ from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty, FloatProperty
 import webbrowser
 from . utils.addons import addon_exists
+from . utils.license import encode
 import rna_keymap_ui
 from . keymap import register_keymaps
+import os, string, socket
 
 class MWS_PT_Preferences(AddonPreferences):
     bl_idname = __name__
@@ -58,7 +60,6 @@ class MWS_PT_Preferences(AddonPreferences):
             )
     
     def draw(self, context):
-        
         if addon_exists("penfinity_bevel"):
             bevlr_icon = "FILE_TICK"
         else:
