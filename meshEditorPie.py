@@ -238,7 +238,7 @@ class MWS_PIE_toolpie(Menu):
             pie.separator()
         
         #TOP
-        pie.separator()
+        pie.operator("mesh.distance_fill", text="Cursor Fill")
         
         #TOP-LEFT
         pie.separator()
