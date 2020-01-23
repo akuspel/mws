@@ -11,11 +11,8 @@ def distance(a, b):
     y = abs(a.y - b.y)
     z = abs(a.z - b.z)
     
-    #calculate distance in x and y
-    d_xy = x**2 + y**2
-    
     #calculate 3D distance
-    d = math.sqrt(d_xy + z**2)
+    d = math.sqrt(x**2 + y**2 + z**2)
     
     return(d)
 
